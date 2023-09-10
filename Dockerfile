@@ -57,6 +57,7 @@ RUN \
 	python3 \
 	python3-minimal \
 	sqlite3 \
+ 	systemctl \
  	wget \ 
 	xz-utils && \
  echo "**** add openvpn-as repo ****" && \
@@ -70,7 +71,7 @@ RUN \
  echo "$OPENVPNAS_VERSION" > /version.txt && \
  rm -rf /tmp/* && \
  grep -i 'password.$' /usr/local/openvpn_as/init.log && \
- cp /usr/local/openvpn_as/etc/as_templ.conf /usr/local/openvpn_as/etc/as.conf \
+ cp /usr/local/openvpn_as/etc/as_templ.conf /usr/local/openvpn_as/etc/as.conf
  
 # add local files
 #COPY /root /
