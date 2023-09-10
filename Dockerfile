@@ -58,7 +58,7 @@ RUN \
 	python3-minimal \
 	sqlite3 \
  	systemctl \
- 	wget \
+ 	wget \ 
 	xz-utils && \
  echo "**** add openvpn-as repo ****" && \
  wget https://as-repository.openvpn.net/as-repo-public.asc -qO /etc/apt/trusted.gpg.d/as-repository.asc && \
