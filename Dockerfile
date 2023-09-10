@@ -70,11 +70,10 @@ RUN \
  fi && \
  echo "$OPENVPNAS_VERSION" > /version.txt && \
  rm -rf /tmp/* && \
- cp /usr/local/openvpn_as/etc/as_templ.conf /usr/local/openvpn_as/etc/as.conf 
- 
-# add local files
-COPY /root /
+ cp /usr/local/openvpn_as/etc/as_templ.conf /usr/local/openvpn_as/etc/as.conf && \
+ echo "grep -i 'password.$' /usr/local/openvpn_as/init.log" > "/usr/local/openvpn_as/scripts/dump_password.sh"
 
+ENTRYPOINT ["/usr/local/openvpn_as/scripts/dump_password.sh"]
 ENTRYPOINT ["/usr/local/openvpn_as/scripts/openvpnas", "--nodaemon", "--umask=0077", "--logfile=/config/log/openvpn.log"]
 
 # ports and volumes
