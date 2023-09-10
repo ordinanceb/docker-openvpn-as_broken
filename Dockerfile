@@ -65,15 +65,13 @@ RUN \
  echo "deb [arch=amd64 signed-by=/etc/apt/trusted.gpg.d/as-repository.asc] http://as-repository.openvpn.net/as/debian jammy main">/etc/apt/sources.list.d/openvpn-as-repo.list && \
  apt update && apt -y install openvpn-as && \
  if [ -z ${OPENVPNAS_VERSION+x} ]; then \
-	OPENVPNAS_VERSION=$(curl -sX GET http://as-repository.openvpn.net/as/debian/dists/focal/main/binary-amd64/Packages.gz | gunzip -c \
+	OPENVPNAS_VERSION=$(curl -sX GET http://as-repository.openvpn.net/as/debian/dists/jammy/main/binary-amd64/Packages.gz | gunzip -c \
 	|grep -A 7 -m 1 "Package: openvpn-as" | awk -F ": " '/Version/{print $2;exit}');\
  fi && \
  echo "$OPENVPNAS_VERSION" > /version.txt && \
  rm -rf /tmp/* && \
- cp /usr/local/openvpn_as/etc/as_templ.conf /usr/local/openvpn_as/etc/as.conf && \
- echo "grep -i 'password.$' /usr/local/openvpn_as/init.log" > "/usr/local/openvpn_as/scripts/dump_password.sh"
+ cp /usr/local/openvpn_as/etc/as_templ.conf /usr/local/openvpn_as/etc/as.conf
 
-ENTRYPOINT ["/usr/local/openvpn_as/scripts/dump_password.sh"]
 ENTRYPOINT ["/usr/local/openvpn_as/scripts/openvpnas", "--nodaemon", "--umask=0077", "--logfile=/config/log/openvpn.log"]
 
 # ports and volumes
