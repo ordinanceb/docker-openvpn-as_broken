@@ -30,13 +30,13 @@ RUN \
 	libmagic1 \
 	libmariadb3 \
 	libmnl0 \
-	libmpdec2 \
+	libmpdec3 \
 	libmysqlclient-dev \
 	libnetfilter-conntrack3 \
 	libnfnetlink0 \
 	libpcap0.8 \
 	libpython3-stdlib \
-	libpython3.8-minimal \
+	libpython3.10-minimal \
 	libxtables12 \
 	mime-support \
 	mysql-common \
