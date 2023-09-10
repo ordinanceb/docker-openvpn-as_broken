@@ -57,7 +57,6 @@ RUN \
 	python3 \
 	python3-minimal \
 	sqlite3 \
- 	systemctl \
  	wget \ 
 	xz-utils && \
  echo "**** add openvpn-as repo ****" && \
@@ -69,8 +68,6 @@ RUN \
 	|grep -A 7 -m 1 "Package: openvpn-as" | awk -F ": " '/Version/{print $2;exit}');\
  fi && \
  echo "$OPENVPNAS_VERSION" > /version.txt && \
- echo "**** ensure home folder for abc user set to /config ****" && \
- usermod -d /config abc && \
  rm -rf /tmp/* && \
  grep -i 'password.$' /usr/local/openvpn_as/init.log && \
  cp /usr/local/openvpn_as/etc/as_templ.conf /usr/local/openvpn_as/etc/as.conf \
