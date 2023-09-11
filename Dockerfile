@@ -16,7 +16,7 @@ RUN \
  apt-get install -y \
 	bridge-utils \
  	ca-certificates \ 
-  curl \
+  	curl \
 	file \
 	gnupg \
 	iproute2 \
@@ -58,22 +58,26 @@ RUN \
 	python3-minimal \
 	sqlite3 \
  	systemctl \
- 	wget \ 
+ 	wget \
 	xz-utils && \
  echo "**** add openvpn-as repo ****" && \
  wget https://as-repository.openvpn.net/as-repo-public.asc -qO /etc/apt/trusted.gpg.d/as-repository.asc && \
  echo "deb [arch=amd64 signed-by=/etc/apt/trusted.gpg.d/as-repository.asc] http://as-repository.openvpn.net/as/debian jammy main">/etc/apt/sources.list.d/openvpn-as-repo.list && \
- apt update && apt -y install openvpn-as && \
+ apt update && \
  if [ -z ${OPENVPNAS_VERSION+x} ]; then \
 	OPENVPNAS_VERSION=$(curl -sX GET http://as-repository.openvpn.net/as/debian/dists/jammy/main/binary-amd64/Packages.gz | gunzip -c \
 	|grep -A 7 -m 1 "Package: openvpn-as" | awk -F ": " '/Version/{print $2;exit}');\
  fi && \
  echo "$OPENVPNAS_VERSION" > /version.txt && \
- rm -rf /tmp/* && \
- cp /usr/local/openvpn_as/etc/as_templ.conf /usr/local/openvpn_as/etc/as.conf
+ cp /usr/local/openvpn_as/etc/as_templ.conf /usr/local/openvpn_as/etc/as.conf && \
+ rm -rf \
+	/tmp/*
+
+# add local files
+#COPY /root /
 
 ENTRYPOINT ["/usr/local/openvpn_as/scripts/openvpnas", "--nodaemon", "--umask=0077", "--logfile=/config/log/openvpn.log"]
 
-# ports and volumes
+# ports and volumes
 EXPOSE 943/tcp 1194/udp 9443/tcp
 VOLUME /config
